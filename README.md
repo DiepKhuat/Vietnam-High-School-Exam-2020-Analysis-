@@ -2,12 +2,12 @@
 This project analyzes data from the 2020 high school exams in Vietnam. The primary objectives are to extract, clean, and analyze the data to gain insights into student performance and trends.
 
 
-Project Overview:
-This project involves several key steps: 
-Data Extraction: Capturing data from the Ministry of Education website. 
-Data Cleaning: Ensuring the data is accurate and consistent. 
-Data Analysis: Analyzing the data to extract meaningful insights. 
-Visualization: Visualizing the results to better understand trends and patterns. 
+Project Overview:    
+This project involves several key steps:   
+Data Extraction: Capturing data from the Ministry of Education website.   
+Data Cleaning: Ensuring the data is accurate and consistent.   
+Data Analysis: Analyzing the data to extract meaningful insights.   
+Visualization: Visualizing the results to better understand trends and patterns.   
 
 Results: 
 Missing Exams: Significant percentages of students did not take certain exams. 
