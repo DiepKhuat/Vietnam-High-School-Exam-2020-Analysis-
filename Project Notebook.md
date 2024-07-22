@@ -18,10 +18,10 @@ This project involves several key steps:
 4. **Visualization**: Visualizing the results to better understand trends and patterns.
 
 ## Data Extraction
-Data was extracted from the public website using CURL. And then put it in file inorder cleaning it
+Data was extracted from a public website using CURL and saved for cleaning.
 
 ## Data Cleaning
-The extracted data was cleaned to remove inconsistencies and ensure accuracy. This involved (just one individual, for the whole file use for loop functions):
+The extracted data was cleaned to remove inconsistencies and ensure accuracy. This cleaning process involved using a for loop function to iterate through the entire file:
   - Splitting the data into individual records.
 ```python
 # Splitting each line in a file  
