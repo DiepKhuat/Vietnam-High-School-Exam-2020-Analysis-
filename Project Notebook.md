@@ -1,35 +1,34 @@
-# Vietnam High School Exam 2020 Analysis
-This project analyzes data from the 2020 high school exams in Vietnam. The primary objectives are to extract, clean, and analyze the data to gain insights into student performance and trends.
+# ベトナム高等学校試験 2020 分析
+このプロジェクトは、ベトナムの高等学校試験のデータセットを分析することを目的としています。このデータセットには、2020年の試験に関する情報が含まれています。
 
-## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Data Extraction](#data-extraction)
-3. [Data Cleaning](#data-cleaning)
-4. [Data Analysis](#data-analysis)
-5. [Visualization](#visualization)
-6. [Results](#results)
-7. [Conclusion](#conclusion)
+## 目次
+1. [プロジェクト概要](#project-overview)
+2. [データ抽出](#data-extraction)
+3. [データクリーニング](#data-cleaning)
+4. [データ分析](#data-analysis)
+5. [可視化](#visualization)
+6. [結果](#results)
+7. [結論](#conclusion)
 
-## Project Overview
-This project involves several key steps:
-1. **Data Extraction**: Capturing data from the public website.
-2. **Data Cleaning**: Ensuring the data is accurate and consistent.
-3. **Data Analysis**: Analyzing the data to extract meaningful insights.
-4. **Visualization**: Visualizing the results to better understand trends and patterns.
+## プロジェクト概要 <a class="anchor" id="project-overviewe"></a>
+このプロジェクトは以下の主要なステップを含みます：
+1. **データ抽出**：公的なウェブサイトからデータを取得する。
+2. **データクリーニング**：データの正確性と一貫性を確保する。
+3. **データ分析**：データを分析して有意義なインサイトを抽出する。
+4. **可視化**：結果を視覚化して傾向やパターンを理解する。
 
-## Data Extraction
-Data was extracted from a public website using CURL and saved for cleaning.
+## データ抽出<a class="anchor" id="data-extraction"></a>
+データは公的なウェブサイトからCURLを使用して抽出し、クリーニングのために保存しました。
 
-## Data Cleaning
-The extracted data was cleaned to remove inconsistencies and ensure accuracy. This cleaning process involved using a for loop function to iterate through the entire file:
-  - Splitting the data into individual records.
-```python
-# Splitting each line in a file  
+## データクリーニング<a class="anchor" id="data-cleaning"></a>
+抽出されたデータは、一貫性を持たせるためにクリーニングされました。クリーニングプロセスには、次のような処理が含まれます：
+  - データを個別のレコードに分割
+``` 
 file = open("raw_data.txt","r")
 datas = file.read().split("\n")
 ```
 
-  - Removing empty records.
+  - 空のレコードの削除
  ```python
 # remove all char \r and \t 
 for i in range(len(data)):
@@ -58,7 +57,7 @@ for i in range(len(data)):
 data = unempty_lines
 ```
 
-  - Replace special characters in name and scores
+  - 特殊文字の置換
 ```python
 # load unitcode table  
 chars = []
@@ -73,12 +72,16 @@ for code in unicode_table:
 for i in range(len(codes)):
 	name = name. replace(codes[i], chars[i])
 	scores = scores.replace(codes[i], chars[i])
-# split date of brith
+```
+  - 生年月日の分割
+```python
 dob_list = dob.split('/')
 dd = dob_list[0]
 mm = dob_list[1]
 yy = dob_list[2]
-# proces scores
+```
+  - スコアの処理
+```python
 # remove :
 scores = scores.replace(":","")
 # web error -khxh, khtn has 1 space despite others have 3 spaces. so must change
@@ -88,23 +91,12 @@ scores = scores.replace(" 10", "  10")
 # then split to a list orders to make pairs subject-score
 scores_list = scores.split("   ")
 data =[name,str(dd),str(mm),str(yy)]
-
-# open new file to check
-file = open("test.txt", encoding = "utf8", mode ="w")
-for i in range(len(data)):
-	file.write(data[i] + ",")
-print(data)
 ```
-## Data Analysis
+## データ分析<a class="anchor" id="data-analysis"></a>
 
-### Analyzing Missing Exams
-
-The number of students who did not take each subject exam was calculated and visualized. The steps included:
-- Iterating through each student's records.
-- Counting the missing exams.
-- Calculating the percentage of students who did not take each exam.
+### 試験未受験の分析
+* 各科目試験を受けなかった学生の人数を計算し、視覚化しました。
 ```python
-# Example code for calculating missing exams
 not_take_exam = [0] * len(subjects)
 for student in students:
     for i in range(5, 16):
@@ -113,14 +105,9 @@ for student in students:
 not_take_exam_percentage = [round(count * 100 / total_student) for count in not_take_exam]
 ```
 
-### Average Scores by Age Group
-
-The average scores were calculated for different age groups. The steps included:
-- Grouping students by age.
-- Calculating the average score for each age group.
-
+### 年齢層別の平均スコア
+* 年齢ごとにグループ化し、各年齢層の平均スコアを計算しました。
 ```python
-# Example code for calculating average scores by age group
 num_of_student_per_age_group = [0] * 8
 average_of_student_per_age_group = [0] * 8
 for student in students:
@@ -134,12 +121,9 @@ for student in students:
         average_of_student_per_age_group[age - 17] += sum_score / count_score
 average_of_student_per_age_group = [avg / num for avg, num in zip(average_of_student_per_age_group, num_of_student_per_age_group)]
 ```
-### Exam Count Analysis
-
-The number of exams taken by students was analyzed. The average score for each number of exams taken was calculated.
-
+### 受験科目数の分析
+* 学生が受けた試験の数とその影響を分析しました。
 ```python
-# Example code for calculating exam count analysis
 num_of_exam_taken = [0] * 12
 average = [0] * 12
 for student in students:
@@ -151,12 +135,9 @@ for student in students:
 average = [avg / num if num != 0 else 0 for avg, num in zip(average, num_of_exam_taken)]
 ```
 
-### Popular Family Names
-
-The most popular family names among students were identified and visualized.
-
+### 人気の苗字
+* 学生の中で最も人気のある苗字を特定し、視覚化しました。
 ```python
-# Example code for analyzing popular family names
 familyname = []
 familyname_count = []
 for student in students:
@@ -168,12 +149,10 @@ for student in students:
         familyname_count[familyname.index(lastname)] += 1
 familyname_count_sorted, familyname_sorted = zip(*sorted(zip(familyname_count, familyname), reverse=True))
 ```
-## Visualization
-Various visualizations were created using matplotlib to represent the analysis results:
-### Missing Exams Percentage
+## 可視化<a class="anchor" id="visualization"></a>
+### 試験未受験の割合
 
 ```python
-# Plotting missing exams percentage
 import matplotlib.pyplot as plt
 
 fig, ax = plt.subplots()
@@ -187,8 +166,7 @@ for rect, label in zip(ax.patches, not_take_exam_percentage):
 plt.show()
 ```
 
-### Average Scores by Age Group
-
+### 年齢層別の平均スコア
 ```python
 # Plotting average scores by age group
 fig, ax = plt.subplots()
@@ -205,8 +183,7 @@ ax2.set_ylabel("Average Scores")
 ax2.set_ylim(0, 10)
 plt.show()
 ```
-### Popular Family Names
-
+### 人気の苗字
 ```python
 # Plotting popular family names
 fig, ax = plt.subplots()
@@ -223,15 +200,15 @@ for rect, label in zip(ax.patches, familyname_count_sorted[:num]):
 plt.show()
 ```
 
-## Results
+## 結果<a class="anchor" id="results"></a>
 
-- **Missing Exams**: Significant percentages of students did not take certain exams.
-- **Average Scores**: There were variations in average scores among different age groups.
-- **Exam Count**: Insights into the number of exams taken and their impact on average scores.
-- **Popular Names**: Analysis of the most common family names among students.
+- **試験未受験**: 多くの学生が特定の試験を受けていない割合が顕著でした。
+- **平均スコア**: 年齢層ごとに平均スコアにばらつきがありました。
+- **受験科目数**: 受験科目数とその平均スコアの影響についてのインサイトが得られました。
+- **人気の苗字**: 学生の中で最も一般的な苗字が特定されました。.
 
-## Conclusion
+## 結論<a class="anchor" id="conclusion"></a>
 
-This analysis provides insights into the performance and demographics of students taking the 2020 high school exams in Vietnam. Future work could involve applying machine learning techniques to predict student performance based on various factors.
+この分析は、2020年のベトナム高等学校試験を受けた学生のパフォーマンスと人口統計に関するインサイトを提供します。将来的には、さまざまな要因に基づいて学生のパフォーマンスを予測するために機械学習技術を適用することが考えられます。
 
 
